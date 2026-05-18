@@ -1,0 +1,122 @@
+<div class="products-container">
+  <div class="products-header">
+    <h2>🛍️ Produtos Disponíveis</h2>
+    <button class="btn-add-product" (click)="selectedProductId.set(null); toggleModal()" title="Adicionar novo produto">
+      ➕ Novo Produto
+    </button>
+  </div>
+
+  @if (error) {
+    <div class="alert alert-error">
+      ❌ {{ error }}
+    </div>
+  }
+  
+  @if (loading && !error) {
+    <div class="loading">
+      <p>⏳ Carregando produtos...</p>
+    </div>
+  }
+  
+  @if (!loading && products.length > 0) {
+    <div class="products-grid">
+      @for (product of products; track product.id) {
+        <div class="card">
+          <div class="card-image">
+            <img [src]="product['img-url']" [alt]="product.name" />
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">{{ product.name }}</h3>
+            <p class="card-text">{{ product.descricao }}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">{{ product.id }}</small>
+            <div class="card-actions">
+              <button class="btn-edit" (click)="editProduct(product)" title="Editar produto">
+                ✏️ Editar
+              </button>
+              <button class="btn-delete" (click)="deleteProduct(product.id)" title="Excluir produto">
+                🗑️ Deletar
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (!loading && products.length === 0 && !error) {
+    <div class="empty-state">
+      <p>📭 Nenhum produto encontrado</p>
+    </div>
+  }
+
+  <!-- Modal de Formulário -->
+  @if (isModalOpen()) {
+    <div class="modal-overlay" (click)="toggleModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>{{ selectedProductId() ? 'Editar Produto' : 'Adicionar Novo Produto' }}</h2>
+          <button class="btn-close" (click)="toggleModal()">✕</button>
+        </div>
+        
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="modal-form">
+          <div class="form-group">
+            <label for="name">Nome do Produto *</label>
+            <input 
+              id="name" 
+              type="text" 
+              formControlName="name"
+              placeholder="Ex: Rubber Ducky"
+              required
+            />
+            @if (productForm.get('name')?.invalid && productForm.get('name')?.touched) {
+              <span class="error-text">Nome é obrigatório</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="descricao">Descrição *</label>
+            <textarea 
+              id="descricao" 
+              formControlName="descricao"
+              placeholder="Descreva o produto..."
+              rows="4"
+              required
+            ></textarea>
+            @if (productForm.get('descricao')?.invalid && productForm.get('descricao')?.touched) {
+              <span class="error-text">Descrição é obrigatória</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="img-url">URL da Imagem *</label>
+            <input 
+              id="img-url" 
+              type="url" 
+              formControlName="img-url"
+              placeholder="Ex: https://example.com/image.jpg"
+              required
+            />
+            @if (productForm.get('img-url')?.invalid && productForm.get('img-url')?.touched) {
+              <span class="error-text">
+                @if (productForm.get('img-url')?.errors?.['required']) {
+                  URL é obrigatória
+                } @else if (productForm.get('img-url')?.errors?.['pattern']) {
+                  URL deve começar com http:// ou https://
+                }
+              </span>
+            }
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-cancel" (click)="toggleModal()">Cancelar</button>
+            <button type="submit" class="btn btn-submit" [disabled]="productForm.invalid">
+              {{ selectedProductId() ? 'Atualizar Produto' : 'Salvar Produto' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

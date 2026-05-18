@@ -1,0 +1,77 @@
+.app-header {
+  background-color: #1a1a2e;
+  background-image: linear-gradient(90deg, rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+  background-size: 50px 100%;
+  box-shadow: 0 4px 12px rgba(0, 255, 65, 0.2), inset 0 0 20px rgba(0, 255, 65, 0.05);
+  border-bottom: 2px solid #00ff41;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 255, 65, 0.4), inset 0 0 20px rgba(0, 255, 65, 0.1);
+    border-bottom-color: #1de9b6;
+  }
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1de9b6;
+  margin: 0;
+  letter-spacing: 2px;
+  text-transform: capitalize;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(29, 233, 182, 0.5);
+  font-family: 'Courier New', monospace;
+
+  &:hover {
+    color: #00ff41;
+    transform: scale(1.05);
+    text-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+  }
+}
+
+// Responsivo para tablets
+@media (max-width: 768px) {
+  .app-header {
+    padding: 1rem 0;
+  }
+
+  .header-container {
+    padding: 1rem 1rem;
+  }
+
+  .brand-title {
+    font-size: 1.5rem;
+  }
+}
+
+// Responsivo para mobile
+@media (max-width: 480px) {
+  .brand-title {
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+  }
+
+  .header-container {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
