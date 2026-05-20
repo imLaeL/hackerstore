@@ -2,6 +2,8 @@ package hacker.store.hackerstore.controller;
 
 import hacker.store.hackerstore.entity.Product;
 import hacker.store.hackerstore.service.ProductService;
+import hacker.store.hackerstore.dto.CreateProductDto;
+import hacker.store.hackerstore.dto.UpdateProductDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

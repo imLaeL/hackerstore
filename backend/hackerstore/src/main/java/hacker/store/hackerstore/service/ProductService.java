@@ -1,7 +1,7 @@
 package hacker.store.hackerstore.service;
 
-import hacker.store.hackerstore.controller.CreateProductDto;
-import hacker.store.hackerstore.controller.UpdateProductDto;
+import hacker.store.hackerstore.dto.CreateProductDto;
+import hacker.store.hackerstore.dto.UpdateProductDto;
 import hacker.store.hackerstore.entity.Product;
 import hacker.store.hackerstore.repository.ProductRepository;
 import org.springframework.stereotype.Service;
