@@ -4,12 +4,20 @@
   <div class="products-header">
     <h2>🛍️ Produtos Disponíveis</h2>
     <div class="header-actions">
-      <button class="btn-add-product" (click)="selectedProductId.set(null); toggleModal()" title="Adicionar novo produto">
-        ➕ Novo Produto
-      </button>
-      <button class="btn-logout" (click)="logout()" title="Sair da conta">
-        🚪 Logout
-      </button>
+      @if (isAuthenticated()) {
+        @if (isAdmin()) {
+          <button class="btn-add-product" (click)="selectedProductId.set(null); toggleModal()" title="Adicionar novo produto">
+            ➕ Novo Produto
+          </button>
+        }
+        <button class="btn-logout" (click)="logout()" title="Sair da conta">
+          🚪 Logout
+        </button>
+      } @else {
+        <button class="btn-login" (click)="goToLogin()" title="Fazer login como administrador">
+          🔐 Login Admin
+        </button>
+      }
     </div>
   </div>
 
@@ -37,14 +45,15 @@
             <p class="card-text">{{ product.descricao }}</p>
           </div>
           <div class="card-footer">
-            <small class="text-muted">{{ product.id }}</small>
             <div class="card-actions">
-              <button class="btn-edit" (click)="editProduct(product)" title="Editar produto">
-                ✏️ Editar
-              </button>
-              <button class="btn-delete" (click)="deleteProduct(product.id)" title="Excluir produto">
-                🗑️ Deletar
-              </button>
+              @if (isAdmin()) {
+                <button class="btn-edit" (click)="editProduct(product)" title="Editar produto">
+                  ✏️ Editar
+                </button>
+                <button class="btn-delete" (click)="deleteProduct(product.id)" title="Excluir produto">
+                  🗑️ Deletar
+                </button>
+              }
             </div>
           </div>
         </div>

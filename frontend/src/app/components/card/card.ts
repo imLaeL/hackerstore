@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, signal, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { ProdutoService } from '../../services/produto';
 import { AuthService } from '../../services/auth.service';
 import { Product } from '../../models/produto.model';
@@ -8,7 +9,7 @@ import { Header } from '../header/header';
 
 @Component({
   selector: 'app-card',
-  imports: [ReactiveFormsModule, Header],
+  imports: [ReactiveFormsModule, Header, CommonModule],
   templateUrl: './card.html',
   styleUrl: './card.scss',
   changeDetection: ChangeDetectionStrategy.Default
@@ -25,6 +26,8 @@ export class CardListComponent implements OnInit {
 
   protected isModalOpen = signal(false);
   protected selectedProductId = signal<string | null>(null);
+  protected isAuthenticated = signal(false);
+  protected isAdmin = signal(false);
 
   protected productForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -36,7 +39,13 @@ export class CardListComponent implements OnInit {
 
   ngOnInit() {
     console.log('CardListComponent OnInit iniciado');
+    this.checkAuthStatus();
     this.loadProducts();
+  }
+
+  private checkAuthStatus() {
+    this.isAuthenticated.set(this.authService.isAuthenticated());
+    this.isAdmin.set(this.authService.isAdmin());
   }
 
   private loadProducts() {
@@ -131,6 +140,11 @@ export class CardListComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    this.checkAuthStatus();
+    this.router.navigate(['/']);
+  }
+
+  goToLogin() {
     this.router.navigate(['/login']);
   }
 }

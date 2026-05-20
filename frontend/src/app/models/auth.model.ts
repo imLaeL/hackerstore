@@ -5,8 +5,13 @@ export interface AuthenticationRequest {
 
 export interface LoginResponse {
   token: string;
+  user?: {
+    login: string;
+    role?: string;
+  };
 }
 
 export interface User {
   login: string;
+  role?: string;
 }

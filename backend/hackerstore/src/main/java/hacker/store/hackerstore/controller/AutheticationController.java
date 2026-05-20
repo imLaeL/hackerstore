@@ -4,6 +4,7 @@ package hacker.store.hackerstore.controller;
 import hacker.store.hackerstore.dto.AuthenticationDto;
 import hacker.store.hackerstore.dto.LoginResponseDto;
 import hacker.store.hackerstore.dto.RegisterDto;
+import hacker.store.hackerstore.dto.UserDto;
 import hacker.store.hackerstore.entity.Users;
 import hacker.store.hackerstore.infra.security.TokenService;
 import hacker.store.hackerstore.repository.UserRepository;
@@ -33,9 +34,13 @@ public class AutheticationController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        var token = tokenService.generateToken((Users) auth.getPrincipal());
+        var user = (Users) auth.getPrincipal();
+        var token = tokenService.generateToken(user);
+        
+        var userDto = new UserDto(user.getLogin(), user.getRole().toString());
+        var response = new LoginResponseDto(token, userDto);
 
-        return ResponseEntity.ok(new LoginResponseDto(token));
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
