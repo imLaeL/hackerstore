@@ -1,11 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, signal, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ProdutoService } from '../../services/produto';
+import { AuthService } from '../../services/auth.service';
 import { Product } from '../../models/produto.model';
+import { Header } from '../header/header';
 
 @Component({
   selector: 'app-card',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Header],
   templateUrl: './card.html',
   styleUrl: './card.scss',
   changeDetection: ChangeDetectionStrategy.Default
@@ -16,6 +19,8 @@ export class CardListComponent implements OnInit {
   loading: boolean = true;
 
   private produtoService = inject(ProdutoService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
 
   protected isModalOpen = signal(false);
@@ -122,5 +127,10 @@ export class CardListComponent implements OnInit {
         error: (err) => console.error('Erro ao excluir:', err)
       });
     }
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

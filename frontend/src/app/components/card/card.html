@@ -1,9 +1,16 @@
+<app-header></app-header>
+
 <div class="products-container">
   <div class="products-header">
     <h2>🛍️ Produtos Disponíveis</h2>
-    <button class="btn-add-product" (click)="selectedProductId.set(null); toggleModal()" title="Adicionar novo produto">
-      ➕ Novo Produto
-    </button>
+    <div class="header-actions">
+      <button class="btn-add-product" (click)="selectedProductId.set(null); toggleModal()" title="Adicionar novo produto">
+        ➕ Novo Produto
+      </button>
+      <button class="btn-logout" (click)="logout()" title="Sair da conta">
+        🚪 Logout
+      </button>
+    </div>
   </div>
 
   @if (error) {
